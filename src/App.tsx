@@ -1,7 +1,10 @@
 import React from 'react';
 import Routes from './routes';
-import {BrowserRouter} from 'react-router-dom';
 import GlobalStyle from './style/index';
+
+import {BrowserRouter} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
@@ -10,6 +13,7 @@ function App() {
       <Routes/>
     </BrowserRouter>
     <GlobalStyle/>
+    <ToastContainer />
     </div>
   );
 }
