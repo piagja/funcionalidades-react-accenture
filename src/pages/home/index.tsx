@@ -1,30 +1,34 @@
-import React, {useState, FormEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom'
-import { Form, Card, Content } from './style'
+import React, { useState, FormEvent } from 'react'
+import { Link, useHistory } from "react-router-dom"
+import { HomePage } from "./style"
+import Logo from "../../img/logo.png"
+
 import api from '../../services/api'
 
 const Home: React.FC = () => {
+
   const history = useHistory()
 
-  const [ cpf, setCpf] = useState('')
-  const [ name, setName ] = useState('')
-  const [ userName, setUserName ] = useState('')
-  const [ password, setPassword ] = useState('')
-  const [ confirmPassword, setConfirmPassword ] = useState('')
+  const [cpf, setCpf] = useState('')
+  const [name, setName] = useState('')
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPass, setConfirmPass] = useState('')
 
-  function createAccount (event: FormEvent<HTMLFormElement>) {
+  function createAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
     const postData = {
       cpf,
       nome: name,
       login: userName,
       senha: password
     }
-
-    if (password !== confirmPassword) {
-      alert('Confirme a senha!')
-      return
+    if (password !== confirmPass) {
+      alert('Confirm pass')
+      return;
     }
+
 
     try {
       api.post(`usuarios`, postData).then(
@@ -32,62 +36,46 @@ const Home: React.FC = () => {
           if (response.status === 200) {
             history.push('/login')
           } else {
-            alert('algo deu errado, tente novamente')
+            alert('Algo de errado, tente novamente em alguns minutos.')
           }
         }
-      )      
-    } catch (error) {
-      console.log('Deu erro cara!', error)
+      )
+    } catch (e) {
+      alert('algo deu errado')
     }
   }
 
-  return(
-    <Content>
-        <Card>
-            <h1>Gama Bank é um projeto de nossos alunos.</h1>
-            <h4>Já tem conta?</h4>
-        </Card>
-
-        <Form onSubmit={createAccount}>
-            <input
-              value={ cpf }
-              type="text" 
-              onChange={ e => { setCpf(e.target.value) } }
-              placeholder="  CPF">
-            </input>
-
-            <input
-              value={ name }
-              type="text" 
-              onChange={ e => { setName(e.target.value) } }
-              placeholder="  Nome completo" >
-            </input>
-
-            <input
-              value={ userName }
-              type="text" 
-              onChange={ e => { setUserName(e.target.value) } }
-              placeholder="  Nome do usuário">
-            </input>
-
-            <input
-              value={ password }
-              type="password" 
-              onChange={ e => { setPassword(e.target.value) } }
-              placeholder="  Digite sua senha">
-            </input>
-
-            <input
-              value={ confirmPassword }
-              type="password" 
-              onChange={ e => { setConfirmPassword(e.target.value) } }
-              placeholder="  Confirme sua senha">
-            </input>
-            <button type="submit">Cadastrar</button>
-            <Link to='/login'>Já tem login?</Link>
-        </Form>
-    </Content>
+  return (
+    <HomePage>
+      <Link to="/">
+        <img className="logo-gama" src={Logo} alt="" />
+      </Link>
+      <div className="middle-div">
+        <div className="access-div">
+          <h2>Gama Bank é um projeto de nossos alunos.</h2>
+          <h2>Já tem conta?</h2>
+          <Link to="/login">
+            <button>Acessar</button>
+          </Link>
+        </div>
+        <div className="signup-div">
+          <div>
+            <h4>
+              Peça sua conta e cartão de crédito Gama Bank
+            </h4>
+          </div>
+          <form onSubmit={createAccount}>
+            <input type="text" value={cpf} onChange={e => setCpf(e.target.value)} placeholder="Digite seu CPF" />
+            <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Nome completo" />
+            <input type="text" value={userName} onChange={e => setUserName(e.target.value)} placeholder="Nome do usuário" />
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Digite sua senha" />
+            <input type="password" value={confirmPass} onChange={e => setConfirmPass(e.target.value)} placeholder="Confirme sua senha" />
+            <button type="submit">Continuar</button>
+          </form>
+        </div>
+      </div>
+    </HomePage>
   );
 }
 
-export default Home;
+export default Home

@@ -1,13 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
 
-const Dashboard: React.FC = () => {
+// import { Container } from './styles';
+
+const DashBoard: React.FC = () => {
   return (
     <>
       <h1>Dashboard</h1>
-      <Link to='/'>Voltar ao inicio</Link>
-    </>
-  )
+    </>)
 }
 
-export default Dashboard;
+export default DashBoard

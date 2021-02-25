@@ -1,59 +1,60 @@
-import React, { useState, FormEvent } from 'react';
-import api from '../../services/api'
-import { Link, useHistory } from 'react-router-dom'
-import { Form } from './style'
-import { toast } from 'react-toastify'
+import React, { useState, FormEvent } from 'react'
+import { Link, useHistory } from "react-router-dom"
 
-// import { Container } from './styles';
+import api from '../../services/api'
+
+import Logo from "../../img/logo.png"
+import { LoginPage } from "./style"
 
 const Login: React.FC = () => {
+
   const history = useHistory()
 
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
 
-  function loginSys (event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  function loginSys(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
     const postData = {
       usuario: login,
       senha: password
     }
 
-    try {
-      api.post(`login`, postData).then(response => {
+    api.post(`login`, postData).then(
+      response => {
         console.log(response.data)
         localStorage.setItem('@tokenApp', response.data.token)
         history.push('/dashboard')
-      })
-    } catch (error) {
-      toast.error('Algo deu errado, tente novamente!')
-    }
+      }
+    )
 
   }
-
-  return(
-    <>
-      <Form onSubmit={loginSys}>
-        <input
-          value={login}
-          onChange={ e => setLogin(e.target.value)}
-          type="text" 
-          placeholder="Nome do usuário">
-        </input>
-
-        <input
-          value={password}
-          onChange={ e => setPassword(e.target.value)}
-          type="password" 
-          placeholder="Digite sua senha">
-        </input>
-
-        <button type="submit">Entrar</button>
-      </Form>
-      <Link to='/' type="submit">Voltar</Link>
-    </>
-    )
+  return (
+    <LoginPage>
+      <Link to="/">
+        <img className="logo-gama" src={Logo} alt="" />
+      </Link>
+      <div className="login-div">
+        <div>
+          <h4>
+            Faça seu Login
+          </h4>
+        </div>
+        <form onSubmit={loginSys}>
+          <input value={login} onChange={e => setLogin(e.target.value)} type="text" />
+          <input value={password} onChange={e => setPassword(e.target.value)} type="password" />
+          <button type="submit" >Logar</button>
+        </form>
+        <Link to="/recoveryPass">
+          Esqueci minha senha
+          </Link>
+        <Link to="/">
+          Ainda não sou cliente
+          </Link>
+      </div>
+    </LoginPage>
+  );
 }
 
 export default Login
